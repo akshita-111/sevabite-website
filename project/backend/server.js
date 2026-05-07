@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const donationsRoute = require("./routes/donations");
 const contactsRoute = require("./routes/contacts");
-const poolPromise = require("./models/db");
+const pool = require("./models/db");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,8 +13,7 @@ app.use(express.json());
 
 app.get("/api/health", async (_req, res) => {
   try {
-    const pool = await poolPromise;
-    await pool.execute("SELECT 1 FROM DUAL");
+    await pool.query("SELECT 1");
     return res.json({ status: "ok", db: "connected" });
   } catch (_error) {
     return res.status(500).json({ status: "error", db: "disconnected" });

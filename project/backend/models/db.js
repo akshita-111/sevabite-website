@@ -1,14 +1,14 @@
-const oracledb = require("oracledb");
+const mysql = require("mysql2/promise");
 
-// Create a pool once; handlers will reuse it.
-// Uses Oracle "thin" driver (no Oracle client libraries required in most setups).
-const poolPromise = oracledb.createPool({
-  user: process.env.ORACLE_USER,
-  password: process.env.ORACLE_PASSWORD,
-  connectString: process.env.ORACLE_DSN,
-  poolMin: 0,
-  poolMax: 10,
-  poolIncrement: 1
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: Number(process.env.DB_PORT || 3306),
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-module.exports = poolPromise;
+module.exports = pool;

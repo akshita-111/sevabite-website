@@ -1,5 +1,5 @@
 const express = require("express");
-const poolPromise = require("../models/db");
+const pool = require("../models/db");
 
 const router = express.Router();
 
@@ -20,26 +20,16 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    const pool = await poolPromise;
-
-    const sql = `
-      INSERT INTO donations (name, email, amount, message)
-      VALUES (:name, :email, :amount, :message)
-    `;
-
-    await pool.execute(
-      sql,
-      {
-        name: name.trim(),
-        email: email.trim(),
-        amount: donationAmount,
-        message: (message || "").trim()
-      },
-      { autoCommit: true }
-    );
-
+    const sql = "INSERT INTO donations (name, email, amount, message) VALUES (?, ?, ?, ?)";
+    const [result] = await pool.execute(sql, [
+      name.trim(),
+      email.trim(),
+      donationAmount,
+      (message || "").trim()
+    ]);
     return res.status(201).json({
-      message: "Donation submitted successfully. Thank you for your support!"
+      message: "Donation submitted successfully. Thank you for your support!",
+      donationId: result.insertId
     });
   } catch (error) {
     console.error("Donation insert error:", error.message);

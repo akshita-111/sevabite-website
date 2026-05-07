@@ -1,5 +1,5 @@
 const express = require("express");
-const poolPromise = require("../models/db");
+const pool = require("../models/db");
 
 const router = express.Router();
 
@@ -17,25 +17,11 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    const pool = await poolPromise;
-
-    const sql = `
-      INSERT INTO contacts (name, email, message)
-      VALUES (:name, :email, :message)
-    `;
-
-    await pool.execute(
-      sql,
-      {
-        name: name.trim(),
-        email: email.trim(),
-        message: message.trim()
-      },
-      { autoCommit: true }
-    );
-
+    const sql = "INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)";
+    const [result] = await pool.execute(sql, [name.trim(), email.trim(), message.trim()]);
     return res.status(201).json({
-      message: "Message sent successfully. Our team will contact you soon!"
+      message: "Message sent successfully. Our team will contact you soon!",
+      contactId: result.insertId
     });
   } catch (error) {
     console.error("Contact insert error:", error.message);

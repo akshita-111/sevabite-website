@@ -1,6 +1,6 @@
 # SevaBite Full-Stack Website
 
-Production-ready multi-page frontend with an Express + Oracle backend for donation and contact form handling.
+Production-ready multi-page frontend with an Express + MySQL backend for donation and contact form handling.
 
 ## Folder Structure
 
@@ -31,20 +31,14 @@ project/
 
 ## Setup Instructions
 
-### 1) Database setup (Oracle / SQL*Plus)
-1. Open SQL*Plus.
-2. Connect to the Oracle schema (user) you want to create tables in.
-3. Run the SQL file `database/schema.sql`.
-
-Example:
-```sql
-sqlplus your_user/your_password@localhost:1521/XEPDB1 @d:/sevabite-website/project/database/schema.sql
-```
+### 1) Database setup (MySQL)
+1. Open MySQL client and run `database/schema.sql`.
+2. Confirm database name is `sevabite_db` (or update `.env`).
 
 ### 2) Backend setup
 1. `cd backend`
 2. `npm install`
-3. Copy `.env.example` to `.env` and fill Oracle credentials.
+3. Copy `.env.example` to `.env` and fill DB credentials.
 4. `npm run dev` or `npm start`
 
 ### 3) Frontend setup
