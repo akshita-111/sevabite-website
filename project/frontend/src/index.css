@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  background: linear-gradient(180deg, #0f1613 0%, #111a22 50%, #1c1711 100%);
+  cursor: none;
+  color: #f2f5f7;
+}
+
+.glass {
+  background: rgba(17, 25, 33, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #ff5f52, #ff9f43, #2dcf73);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-container {
+  @apply mx-auto w-[92%] max-w-6xl py-16 md:py-24;
+}
+
+.floating-blob {
+  filter: blur(8px);
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-margin-top: 95px;
+}
+
+button,
+a,
+input,
+textarea {
+  cursor: none;
+}
