@@ -1,0 +1,46 @@
+const express = require("express");
+const poolPromise = require("../models/db");
+
+const router = express.Router();
+
+router.post("/", async (req, res) => {
+  const { name, email, message } = req.body;
+
+  if (!name || name.length < 2) {
+    return res.status(400).json({ message: "Name must be at least 2 characters." });
+  }
+  if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+    return res.status(400).json({ message: "Please provide a valid email." });
+  }
+  if (!message || message.trim().length < 8) {
+    return res.status(400).json({ message: "Message must be at least 8 characters." });
+  }
+
+  try {
+    const pool = await poolPromise;
+
+    const sql = `
+      INSERT INTO contacts (name, email, message)
+      VALUES (:name, :email, :message)
+    `;
+
+    await pool.execute(
+      sql,
+      {
+        name: name.trim(),
+        email: email.trim(),
+        message: message.trim()
+      },
+      { autoCommit: true }
+    );
+
+    return res.status(201).json({
+      message: "Message sent successfully. Our team will contact you soon!"
+    });
+  } catch (error) {
+    console.error("Contact insert error:", error.message);
+    return res.status(500).json({ message: "Server error while submitting message." });
+  }
+});
+
+module.exports = router;
