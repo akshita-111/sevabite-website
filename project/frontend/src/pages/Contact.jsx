@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import SectionHeader from "../components/SectionHeader";
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "/api";
 
 function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
