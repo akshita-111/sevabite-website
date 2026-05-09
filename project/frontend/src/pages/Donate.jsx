@@ -30,7 +30,7 @@ function Donate() {
 
   return (
     <section className="section-container rounded-[2.5rem]">
-      <SectionHeader eyebrow="Donate" title="Fuel meaningful change" description="Your support powers food access, education, and emergency interventions." />
+      <SectionHeader eyebrow="Donate Food" title="Every Donation Creates A Smile" description="Your contribution can turn wasted meals into hope for families and communities." />
       <motion.form
         initial="hidden"
         whileInView="show"
@@ -48,7 +48,7 @@ function Donate() {
           <motion.input variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } } }} className="rounded-xl border border-white/15 bg-slate-900/60 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-orange-400 font-medium" name="amount" value={form.amount} onChange={onChange} placeholder="Donation Amount" type="number" min="1" required />
           <motion.textarea variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } } }} className="rounded-xl border border-white/15 bg-slate-900/60 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-orange-400 font-medium" name="message" value={form.message} onChange={onChange} placeholder="Message (optional)" rows={5} />
           <motion.button variants={{ hidden: { opacity: 0, scale: 0.9 }, show: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 100 } } }} className="rounded-full bg-gradient-to-r from-redSoft via-orangeSoft to-greenSoft px-6 py-3 font-bold text-white transition hover:scale-[1.02]" type="submit">
-            Submit Donation
+            Donate Now
           </motion.button>
           {status.text && <p className={`text-sm ${status.ok ? "text-green-600" : "text-red-500"}`}>{status.text}</p>}
         </div>

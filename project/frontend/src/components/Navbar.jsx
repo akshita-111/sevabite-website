@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 
 const links = [
   { to: "home", label: "Home" },
-  { to: "about", label: "About" },
-  { to: "services", label: "Services" },
-  { to: "donate", label: "Donate" },
-  { to: "contact", label: "Contact" }
+  { to: "about", label: "Our Mission" },
+  { to: "services", label: "What We Do" },
+  { to: "donate", label: "Donate Food" },
+  { to: "contact", label: "Join Us" }
 ];
 
 function Navbar() {
