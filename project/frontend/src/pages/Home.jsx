@@ -6,9 +6,10 @@ import SectionHeader from "../components/SectionHeader";
 import Card3D from "../components/Card3D";
 
 const features = [
-  { title: "Campaign Studio", text: "Launch premium donation campaigns with clarity and trust.", icon: "📈" },
-  { title: "Impact Tracking", text: "Track every contribution with transparent, real-time reports.", icon: "✨" },
-  { title: "Community Network", text: "Connect NGOs, volunteers, and donors in one smooth platform.", icon: "🤝" }
+  { title: "Reduce Food Waste", text: "Helping surplus food reach people instead of landfills.", icon: "♻️" },
+  { title: "Support Communities", text: "Connecting food donors with people who need meals.", icon: "🏠" },
+  { title: "Promote Sustainability", text: "Sending unusable food waste to biogas plants for eco-friendly energy generation.", icon: "🌱" },
+  { title: "Build Together", text: "Creating a stronger community through collective action and food sharing.", icon: "🤝" }
 ];
 
 function Home() {
@@ -154,11 +155,11 @@ function Home() {
           }}
         >
           <SectionHeader
-            eyebrow="Why SevaBite"
-            title="Designed like a startup, built for social good"
-            description="Elegant UI, fast flows, and rich interactions that make giving effortless."
+            eyebrow="Our Impact"
+            title="Creating Positive Change"
+            description="SevaBite reduces food waste by redistributing surplus meals and converting unusable waste into sustainable energy solutions."
           />
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {features.map((f, index) => (
               <Card3D key={f.title} {...f} delay={index * 0.15} />
             ))}
