@@ -6,10 +6,9 @@ import SectionHeader from "../components/SectionHeader";
 import Card3D from "../components/Card3D";
 
 const features = [
-  { title: "Zero Waste", text: "Our Mission", icon: "♻️" },
-  { title: "One Goal", text: "Feed More People", icon: "🎯" },
-  { title: "Growing Together", text: "Community Driven", icon: "🤝" },
-  { title: "Every Meal Matters", text: "Small Actions, Big Impact", icon: "🍱" }
+  { title: "Campaign Studio", text: "Launch premium donation campaigns with clarity and trust.", icon: "📈" },
+  { title: "Impact Tracking", text: "Track every contribution with transparent, real-time reports.", icon: "✨" },
+  { title: "Community Network", text: "Connect NGOs, volunteers, and donors in one smooth platform.", icon: "🤝" }
 ];
 
 function Home() {
@@ -125,7 +124,8 @@ function Home() {
             >
               {[
                 { title: "ONE GOAL", subtitle: "Feed More People", icon: "🎯" },
-                { title: "GROWING TOGETHER", subtitle: "Community Driven", icon: "🤝" }
+                { title: "GROWING TOGETHER", subtitle: "Community Driven", icon: "🤝" },
+                { title: "EVERY MEAL MATTERS", subtitle: "Small Actions, Big Impact", icon: "🍱" }
               ].map((item) => (
                 <div key={item.title} className="glass rounded-3xl p-5 flex items-center gap-4 min-w-[200px]">
                   <div className="h-12 w-12 rounded-full bg-orange-500/20 flex items-center justify-center text-2xl">
@@ -137,19 +137,6 @@ function Home() {
                   </div>
                 </div>
               ))}
-            </motion.div>
-
-            {/* Fourth Extra Card */}
-            <motion.div 
-              className="glass absolute -bottom-10 -left-12 z-0 flex items-center gap-3 rounded-2xl p-4 shadow-lg border border-white/5" 
-              animate={{ y: [0, -12, 0], x: [0, 5, 0] }} 
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            >
-              <div className="h-8 w-8 rounded-full bg-blue-500/10 flex items-center justify-center text-lg">✨</div>
-              <div>
-                <p className="text-sm font-black text-white">EVERY MEAL MATTERS</p>
-                <p className="text-[9px] text-slate-400 font-bold opacity-80">Small Actions, Big Impact</p>
-              </div>
             </motion.div>
           </motion.div>
         </div>
@@ -167,11 +154,11 @@ function Home() {
           }}
         >
           <SectionHeader
-            eyebrow="Mission Impact"
-            title="Every action counts"
-            description="We bridge the gap between abundance and need."
+            eyebrow="Why SevaBite"
+            title="Designed like a startup, built for social good"
+            description="Elegant UI, fast flows, and rich interactions that make giving effortless."
           />
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 md:grid-cols-3">
             {features.map((f, index) => (
               <Card3D key={f.title} {...f} delay={index * 0.15} />
             ))}
