@@ -1,5 +1,6 @@
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import gsap from "gsap";
 import BackgroundDecor from "../components/BackgroundDecor";
 import SectionHeader from "../components/SectionHeader";
 import Card3D from "../components/Card3D";
@@ -19,6 +20,42 @@ function Home() {
   });
 
   const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const headingRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline();
+      
+      tl.from(".heading-word", {
+        y: 80,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: "power2.out",
+        delay: 0.5
+      })
+      .to(".heading-smiles", {
+        scale: 1.08,
+        filter: "drop-shadow(0 0 12px rgba(255,165,0,0.4))",
+        duration: 0.8,
+        ease: "power2.inOut",
+        yoyo: true,
+        repeat: 1
+      }, "-=0.4");
+
+      // Very light floating after reveal
+      gsap.to(headingRef.current, {
+        y: -8,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: 3
+      });
+    }, headingRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const goTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
@@ -35,13 +72,15 @@ function Home() {
             >
               Building a Hunger-Free Future
             </motion.p>
-            <h1 className="text-5xl font-black leading-tight md:text-7xl lg:text-8xl overflow-hidden">
-              <motion.span initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }} className="block">
-                Turning Surplus
-              </motion.span>
-              <motion.span initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }} className="block">
-                Into <span className="gradient-text">Smiles</span> .
-              </motion.span>
+            <h1 ref={headingRef} className="text-5xl font-black leading-tight md:text-7xl lg:text-8xl">
+              <div className="overflow-hidden py-1">
+                <span className="heading-word inline-block mr-3">Turning</span>
+                <span className="heading-word inline-block">Surplus</span>
+              </div>
+              <div className="overflow-hidden py-1">
+                <span className="heading-word inline-block mr-3">Into</span>
+                <span className="heading-word heading-smiles inline-block gradient-text">Smiles.</span>
+              </div>
             </h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.6 }} className="mt-5 max-w-xl text-slate-300 font-medium text-lg md:text-xl">
               SevaBite connects excess food with people who need it through smart, sustainable, and community-driven food sharing.
@@ -70,13 +109,13 @@ function Home() {
             
             {/* Floating Glass Stats */}
             <motion.div 
-              className="glass absolute left-10 top-2/4 z-10 w-44 -translate-y-2/4 rounded-3xl p-5 shadow-premium" 
-              animate={{ y: [0, -15, 0], rotate: [0, 2, 0] }} 
+              className="glass absolute left-4 top-2/4 z-10 w-48 -translate-y-2/4 rounded-3xl p-5 shadow-premium" 
+              animate={{ y: [0, -20, 0], rotate: [0, -2, 0] }} 
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             >
-              <div className="mb-2 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center text-xl">🍲</div>
-              <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Meals Sponsored</p>
-              <p className="text-3xl font-black mt-1 text-white">12,450+</p>
+              <div className="mb-3 h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center text-xl">♻️</div>
+              <p className="text-lg font-black text-white leading-tight">ZERO WASTE</p>
+              <p className="text-[10px] text-slate-300 uppercase tracking-widest font-bold mt-1 opacity-70">Our Mission</p>
             </motion.div>
 
             <motion.div 
@@ -85,19 +124,32 @@ function Home() {
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
             >
               {[
-                { label: "Active Donors", value: "1,280+", icon: "👥" },
-                { label: "Fund Utilization", value: "98%", icon: "📊" }
+                { title: "ONE GOAL", subtitle: "Feed More People", icon: "🎯" },
+                { title: "GROWING TOGETHER", subtitle: "Community Driven", icon: "🤝" }
               ].map((item) => (
-                <div key={item.label} className="glass rounded-3xl p-5 flex items-center gap-4">
+                <div key={item.title} className="glass rounded-3xl p-5 flex items-center gap-4 min-w-[200px]">
                   <div className="h-12 w-12 rounded-full bg-orange-500/20 flex items-center justify-center text-2xl">
                     {item.icon}
                   </div>
                   <div>
-                    <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">{item.label}</p>
-                    <p className="text-2xl font-black text-white">{item.value}</p>
+                    <p className="text-lg font-black text-white leading-tight">{item.title}</p>
+                    <p className="text-[10px] text-slate-300 uppercase tracking-widest font-bold mt-1 opacity-70">{item.subtitle}</p>
                   </div>
                 </div>
               ))}
+            </motion.div>
+
+            {/* Fourth Extra Card */}
+            <motion.div 
+              className="glass absolute -bottom-10 -left-12 z-0 flex items-center gap-3 rounded-2xl p-4 shadow-lg border border-white/5" 
+              animate={{ y: [0, -12, 0], x: [0, 5, 0] }} 
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            >
+              <div className="h-8 w-8 rounded-full bg-blue-500/10 flex items-center justify-center text-lg">✨</div>
+              <div>
+                <p className="text-sm font-black text-white">EVERY MEAL MATTERS</p>
+                <p className="text-[9px] text-slate-400 font-bold opacity-80">Small Actions, Big Impact</p>
+              </div>
             </motion.div>
           </motion.div>
         </div>
