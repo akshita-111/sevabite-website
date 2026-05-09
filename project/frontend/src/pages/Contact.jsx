@@ -29,22 +29,26 @@ function Contact() {
   };
 
   return (
-    <section className="section-container rounded-[2.5rem] bg-gradient-to-br from-[#2a2c2e] via-[#2a2d2a] to-[#283122]">
+    <section className="section-container rounded-[2.5rem]">
       <SectionHeader eyebrow="Contact" title="Let us co-create impact" description="Share your campaign goals and our team will help you launch quickly." />
       <motion.form
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: false, margin: "-80px" }}
+        variants={{
+          hidden: { opacity: 0, y: 60, scale: 0.95 },
+          show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1], staggerChildren: 0.12 } }
+        }}
         onSubmit={onSubmit}
         className="glass interactive-card mx-auto max-w-2xl rounded-3xl p-6 shadow-premium md:p-8"
       >
         <div className="grid gap-4">
-          <input className="rounded-xl border border-orange-200/30 bg-black/20 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-400 focus:border-green-300" name="name" value={form.name} onChange={onChange} placeholder="Full Name" required />
-          <input className="rounded-xl border border-orange-200/30 bg-black/20 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-400 focus:border-green-300" name="email" value={form.email} onChange={onChange} placeholder="Email Address" type="email" required />
-          <textarea className="rounded-xl border border-orange-200/30 bg-black/20 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-400 focus:border-green-300" name="message" value={form.message} onChange={onChange} placeholder="Your message" rows={6} required />
-          <button className="rounded-full bg-gradient-to-r from-greenSoft via-orangeSoft to-redSoft px-6 py-3 font-bold text-white transition hover:scale-[1.02]" type="submit">
+          <motion.input variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } } }} className="rounded-xl border border-white/15 bg-slate-900/60 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-green-400 font-medium" name="name" value={form.name} onChange={onChange} placeholder="Full Name" required />
+          <motion.input variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } } }} className="rounded-xl border border-white/15 bg-slate-900/60 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-green-400 font-medium" name="email" value={form.email} onChange={onChange} placeholder="Email Address" type="email" required />
+          <motion.textarea variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } } }} className="rounded-xl border border-white/15 bg-slate-900/60 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-green-400 font-medium" name="message" value={form.message} onChange={onChange} placeholder="Your message" rows={6} required />
+          <motion.button variants={{ hidden: { opacity: 0, scale: 0.9 }, show: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 100 } } }} className="rounded-full bg-gradient-to-r from-greenSoft via-orangeSoft to-redSoft px-6 py-3 font-bold text-white transition hover:scale-[1.02]" type="submit">
             Send Message
-          </button>
+          </motion.button>
           {status.text && <p className={`text-sm ${status.ok ? "text-green-600" : "text-red-500"}`}>{status.text}</p>}
         </div>
       </motion.form>

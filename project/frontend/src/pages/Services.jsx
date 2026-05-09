@@ -12,7 +12,7 @@ function Services() {
   ];
 
   return (
-    <section className="section-container rounded-[2.5rem] bg-gradient-to-br from-[#1a2229] via-[#1a2430] to-[#1e2d40]">
+    <section className="section-container rounded-[2.5rem]">
       <SectionHeader
         eyebrow="Services"
         title="Everything needed to run high-impact initiatives"

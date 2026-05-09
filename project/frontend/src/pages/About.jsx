@@ -9,7 +9,7 @@ function About() {
   ];
 
   return (
-    <section className="section-container rounded-[2.5rem] bg-gradient-to-br from-[#2f281f] via-[#382f24] to-[#253526]">
+    <section className="section-container rounded-[2.5rem]">
       <SectionHeader
         eyebrow="About"
         title="Modern platform with human-first values"

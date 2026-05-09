@@ -40,17 +40,17 @@ function Navbar() {
     <motion.header
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-[#121a20]/70 backdrop-blur-xl"
+      className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-slate-950/70 backdrop-blur-xl"
     >
       <nav className="mx-auto flex w-[92%] max-w-6xl items-center justify-between py-4">
-        <button onClick={() => scrollTo("home")} className="text-2xl font-black tracking-tight">
+        <button onClick={() => scrollTo("home")} className="text-2xl font-black tracking-tight text-white">
           Seva<span className="gradient-text">Bite</span>
         </button>
 
         <button className="md:hidden" onClick={() => setOpen((v) => !v)} aria-label="Toggle menu">
-          <span className="block h-0.5 w-6 bg-slate-100" />
-          <span className="mt-1 block h-0.5 w-6 bg-slate-100" />
-          <span className="mt-1 block h-0.5 w-6 bg-slate-100" />
+          <span className="block h-0.5 w-6 bg-white" />
+          <span className="mt-1 block h-0.5 w-6 bg-white" />
+          <span className="mt-1 block h-0.5 w-6 bg-white" />
         </button>
 
         <div className={`${open ? "flex" : "hidden"} glass absolute right-4 top-16 flex-col gap-1 rounded-2xl p-2 shadow-glass md:static md:flex md:flex-row md:bg-transparent md:p-0 md:shadow-none`}>
@@ -58,8 +58,8 @@ function Navbar() {
             <button
               key={item.to}
               onClick={() => scrollTo(item.to)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                active === item.to ? "bg-orange-500/20 text-orange-300" : "text-slate-300 hover:bg-green-500/20 hover:text-green-300"
+              className={`rounded-full px-4 py-2 text-sm font-bold transition ${
+                active === item.to ? "bg-orange-500/30 text-orange-300" : "text-slate-300 hover:bg-white/10 hover:text-white"
               }`}
             >
               {item.label}

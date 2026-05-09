@@ -5,15 +5,15 @@
 body {
   margin: 0;
   font-family: Inter, "Segoe UI", system-ui, sans-serif;
-  background: linear-gradient(180deg, #0f1613 0%, #111a22 50%, #1c1711 100%);
+  background: transparent;
   cursor: none;
-  color: #f2f5f7;
+  color: #f8fafc;
 }
 
 .glass {
-  background: rgba(17, 25, 33, 0.58);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(10px);
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
 }
 
 .gradient-text {
@@ -23,7 +23,7 @@ body {
 }
 
 .section-container {
-  @apply mx-auto w-[92%] max-w-6xl py-16 md:py-24;
+  @apply mx-auto w-[92%] max-w-6xl py-10 md:py-14;
 }
 
 .floating-blob {
