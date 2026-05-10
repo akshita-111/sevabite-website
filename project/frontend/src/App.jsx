@@ -87,7 +87,7 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen text-slate-50 relative bg-slate-950">
+    <div className="min-h-screen text-slate-50 relative">
       {/* Fixed Background Video */}
       <div className="fixed inset-0 -z-20 h-full w-full overflow-hidden">
         <video 
@@ -102,7 +102,7 @@ function App() {
         >
           <source src="https://images.pexels.com/video-files/6646907/6646907-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-[3px]"></div>
+        <div className="absolute inset-0 bg-slate-950/50 backdrop-blur-[1px]"></div>
       </div>
 
       <CustomCursor />
