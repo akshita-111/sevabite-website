@@ -100,9 +100,8 @@ function App() {
           className="h-full w-full object-cover scale-105"
           style={{ objectPosition: "center center" }}
         >
-          <source src="https://images.pexels.com/video-files/6646907/6646907-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://images.pexels.com/video-files/6646907/6646907-uhd_3840_2160_25fps.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-slate-950/50 backdrop-blur-[1px]"></div>
       </div>
 
       <CustomCursor />
