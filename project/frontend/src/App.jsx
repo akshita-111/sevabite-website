@@ -45,18 +45,18 @@ function App() {
     if (!video) return;
 
     // Set initial slow motion
-    video.playbackRate = 0.4;
+    video.playbackRate = 0.6;
     video.play().catch(() => {});
     
     // Gently increase speed when scrolling, return to slow motion when still
     return smoothVelocity.on("change", (latest) => {
       const velocity = Math.abs(latest);
       if (velocity > 10) {
-        // Smoothly ramp up from 0.4x base speed
-        const newRate = Math.min(Math.max(0.4 + (velocity / 2000), 0.4), 2.0);
+        // Smoothly ramp up from 0.6x base speed
+        const newRate = Math.min(Math.max(0.6 + (velocity / 2000), 0.6), 2.0);
         video.playbackRate = newRate;
       } else {
-        video.playbackRate = 0.4;
+        video.playbackRate = 0.6;
       }
     });
   }, [smoothVelocity]);
