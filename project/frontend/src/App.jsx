@@ -11,30 +11,20 @@ import CustomCursor from "./components/CustomCursor";
 import Lenis from "@studio-freight/lenis";
 
 const SectionWrapper = ({ id, bgImage, children, overlayOpacity = "60" }) => {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  // Ferris Wheel rotation and swing logic
-  const rotate = useTransform(scrollYProgress, [0, 0.5, 1], [-10, 0, 10]);
-  const x = useTransform(scrollYProgress, [0, 0.5, 1], [-80, 0, 80]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.9]);
-  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
-
   return (
     <motion.section
       id={id}
-      ref={containerRef}
-      style={{ 
-        rotate,
-        x,
-        scale,
-        opacity,
-        transformOrigin: "center center"
+      initial={{ opacity: 0, rotateZ: -8, x: -120, y: 180, scale: 0.92 }}
+      whileInView={{ opacity: 1, rotateZ: 0, x: 0, y: 0, scale: 1 }}
+      viewport={{ once: false, margin: "-10%" }}
+      transition={{ 
+        type: "spring",
+        stiffness: 40,
+        damping: 18,
+        duration: 1.5,
+        ease: [0.22, 1, 0.36, 1]
       }}
-      className="snap-start relative mx-4 md:mx-20 rounded-[3rem] overflow-hidden mb-20 border border-white/5 shadow-2xl"
+      className="snap-start relative mx-4 md:mx-20 rounded-[3rem] overflow-hidden mb-24 border border-white/5 shadow-premium"
     >
       {/* Background Container */}
       <div 
