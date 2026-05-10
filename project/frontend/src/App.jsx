@@ -14,9 +14,8 @@ const SectionWrapper = ({ id, bgImage, children, overlayOpacity = "60" }) => {
   return (
     <motion.section
       id={id}
-      initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={{ once: false, margin: "-10%" }}
       transition={{ 
         duration: 0.8,
         ease: "easeOut"

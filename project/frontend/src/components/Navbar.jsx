@@ -17,16 +17,28 @@ function Navbar() {
     const sections = links
       .map((l) => document.getElementById(l.to))
       .filter(Boolean);
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) setActive(entry.target.id);
         });
       },
-      { threshold: 0.45 }
+      { threshold: 0.25 } // Lower threshold for better detection
     );
+    
     sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
+
+    // Handle scroll back to top specifically for "Home"
+    const handleScroll = () => {
+      if (window.scrollY < 100) setActive("home");
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const scrollTo = (id) => {

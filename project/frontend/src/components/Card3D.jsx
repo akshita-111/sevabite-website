@@ -2,14 +2,13 @@ import { motion } from "framer-motion";
 
 function Card3D({ title, text, icon, delay = 0 }) {
   return (
-    <motion.article
       initial={{ opacity: 0, y: 60, scale: 0.95 }}
       whileInView={{ 
         opacity: 1, 
         y: 0, 
         scale: 1,
       }}
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: false, margin: "-80px" }}
       transition={{ 
         delay, 
         type: "spring",
