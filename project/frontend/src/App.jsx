@@ -11,23 +11,48 @@ import CustomCursor from "./components/CustomCursor";
 import Lenis from "@studio-freight/lenis";
 
 const SectionWrapper = ({ id, bgImage, children, overlayOpacity = "60" }) => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Ferris Wheel rotation and swing logic
+  const rotate = useTransform(scrollYProgress, [0, 0.5, 1], [-10, 0, 10]);
+  const x = useTransform(scrollYProgress, [0, 0.5, 1], [-80, 0, 80]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.9]);
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
+
   return (
-    <section
+    <motion.section
       id={id}
-      className="snap-start relative mx-4 md:mx-20 rounded-[3rem] overflow-hidden mb-12 border border-white/5"
+      ref={containerRef}
       style={{ 
-        backgroundImage: `url('${bgImage}')`, 
-        backgroundSize: "cover", 
-        backgroundPosition: "center",
+        rotate,
+        x,
+        scale,
+        opacity,
+        transformOrigin: "center center"
       }}
+      className="snap-start relative mx-4 md:mx-20 rounded-[3rem] overflow-hidden mb-20 border border-white/5 shadow-2xl"
     >
+      {/* Background Container */}
+      <div 
+        className="absolute inset-0 -z-10"
+        style={{ 
+          backgroundImage: `url('${bgImage}')`, 
+          backgroundSize: "cover", 
+          backgroundPosition: "center",
+        }}
+      />
+      
       {/* Dark overlay */}
       <div className={`absolute inset-0 bg-slate-950/${overlayOpacity}`} />
       
       <div className="relative z-10">
         {children}
       </div>
-    </section>
+    </motion.section>
   );
 };
 
