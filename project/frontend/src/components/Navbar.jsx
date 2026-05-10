@@ -58,10 +58,17 @@ function Navbar() {
             <button
               key={item.to}
               onClick={() => scrollTo(item.to)}
-              className={`rounded-full px-4 py-2 text-sm font-bold transition ${
-                active === item.to ? "bg-orange-500/30 text-orange-300" : "text-slate-300 hover:bg-white/10 hover:text-white"
+              className={`relative rounded-full px-4 py-2 text-sm font-bold transition-colors duration-300 ${
+                active === item.to ? "text-orange-400" : "text-slate-300 hover:text-white"
               }`}
             >
+              {active === item.to && (
+                <motion.div
+                  layoutId="nav-pill"
+                  className="absolute inset-0 z-[-1] rounded-full bg-orange-500/20 border border-orange-500/20 shadow-[0_0_15px_rgba(249,115,22,0.2)]"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
               {item.label}
             </button>
           ))}
