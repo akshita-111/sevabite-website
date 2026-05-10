@@ -40,9 +40,11 @@ apiRouter.get("/health", async (_req, res) => {
   }
 });
 
-// Mount sub-routes
+// Mount sub-routes (support both /contacts and /contacts/)
 apiRouter.use("/donations", donationsRoute);
 apiRouter.use("/contacts", contactsRoute);
+apiRouter.use("/donations/", donationsRoute);
+apiRouter.use("/contacts/", contactsRoute);
 
 // Mount the entire API router
 app.use("/api", apiRouter);
