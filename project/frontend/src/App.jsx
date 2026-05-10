@@ -102,21 +102,19 @@ function App() {
     <div className="min-h-screen text-slate-50 relative">
       {/* Fixed Background Video */}
       <div className="fixed inset-0 -z-20 h-full w-full overflow-hidden bg-slate-950">
-        <video 
-          key="bg-video"
-          ref={videoRef}
-          autoPlay
-          loop
-          muted 
-          playsInline 
-          className="h-full w-full object-cover"
-          style={{ 
-            objectPosition: "center center",
-            transform: "rotate(90deg) scale(1.8)" 
-          }}
-        >
-          <source src="https://images.pexels.com/video-files/6646907/6646907-uhd_3840_2160_25fps.mp4" type="video/mp4" />
-        </video>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180vh] h-[180vw] rotate-90">
+          <video 
+            key="bg-video"
+            ref={videoRef}
+            autoPlay
+            loop
+            muted 
+            playsInline 
+            className="h-full w-full object-cover"
+          >
+            <source src="/background.mp4" type="video/mp4" />
+          </video>
+        </div>
       </div>
 
       <CustomCursor />
