@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 
 function Card3D({ title, text, icon, delay = 0 }) {
   return (
+    <motion.article
       initial={{ opacity: 0, y: 60, scale: 0.95 }}
       whileInView={{ 
         opacity: 1, 

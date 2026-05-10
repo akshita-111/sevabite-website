@@ -21,17 +21,22 @@ function Navbar() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          // If we're at the very top, force Home
+          if (window.scrollY < 50) {
+            setActive("home");
+            return;
+          }
           if (entry.isIntersecting) setActive(entry.target.id);
         });
       },
-      { threshold: 0.25 } // Lower threshold for better detection
+      { threshold: 0.15 } // Very low threshold for maximum responsiveness
     );
     
     sections.forEach((s) => observer.observe(s));
 
-    // Handle scroll back to top specifically for "Home"
+    // Fallback for fast scrolling
     const handleScroll = () => {
-      if (window.scrollY < 100) setActive("home");
+      if (window.scrollY < 50) setActive("home");
     };
     window.addEventListener("scroll", handleScroll);
 
