@@ -149,9 +149,9 @@ function Home() {
         <div
           className="rounded-3xl px-6 py-12 md:px-10"
           style={{
-            background: "rgba(5, 10, 25, 0.55)",
-            border: "1px solid rgba(255, 255, 255, 0.07)",
-            backdropFilter: "blur(16px)",
+            background: "transparent",
+            border: "none",
+            backdropFilter: "none",
           }}
         >
           <SectionHeader

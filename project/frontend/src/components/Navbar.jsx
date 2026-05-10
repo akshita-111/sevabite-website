@@ -33,6 +33,7 @@ function Navbar() {
     const el = document.getElementById(id);
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "start" });
+    setActive(id); // Set active immediately for instant feedback
     setOpen(false);
   };
 
