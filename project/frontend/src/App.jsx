@@ -44,19 +44,19 @@ function App() {
     const video = videoRef.current;
     if (!video) return;
 
-    // Start paused
-    video.pause();
+    // Set initial slow motion
+    video.playbackRate = 0.4;
+    video.play().catch(() => {});
     
-    // Play only when scrolling, speed based on velocity
+    // Gently increase speed when scrolling, return to slow motion when still
     return smoothVelocity.on("change", (latest) => {
       const velocity = Math.abs(latest);
-      if (velocity > 20) {
-        if (video.paused) video.play().catch(() => {});
-        // Map velocity to playback rate (min 0.5, max 2.5)
-        const newRate = Math.min(Math.max(velocity / 800, 0.5), 2.5);
+      if (velocity > 10) {
+        // Smoothly ramp up from 0.4x base speed
+        const newRate = Math.min(Math.max(0.4 + (velocity / 2000), 0.4), 2.0);
         video.playbackRate = newRate;
       } else {
-        if (!video.paused) video.pause();
+        video.playbackRate = 0.4;
       }
     });
   }, [smoothVelocity]);
