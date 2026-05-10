@@ -14,15 +14,12 @@ const SectionWrapper = ({ id, bgImage, children, overlayOpacity = "60" }) => {
   return (
     <motion.section
       id={id}
-      initial={{ opacity: 0, rotateZ: -8, x: -120, y: 180, scale: 0.92 }}
-      whileInView={{ opacity: 1, rotateZ: 0, x: 0, y: 0, scale: 1 }}
-      viewport={{ once: false, margin: "-10%" }}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
       transition={{ 
-        type: "spring",
-        stiffness: 40,
-        damping: 18,
-        duration: 1.5,
-        ease: [0.22, 1, 0.36, 1]
+        duration: 0.8,
+        ease: "easeOut"
       }}
       className="snap-start relative mx-4 md:mx-20 rounded-[3rem] overflow-hidden mb-24 border border-white/5 shadow-premium"
     >
@@ -112,10 +109,13 @@ function App() {
           loop
           muted 
           playsInline 
-          className="h-full w-full object-cover scale-105"
-          style={{ objectPosition: "center center" }}
+          className="h-full w-full object-cover"
+          style={{ 
+            objectPosition: "center center",
+            transform: "rotate(90deg) scale(1.8)" 
+          }}
         >
-          <source src="/background.mp4?v=final" type="video/mp4" />
+          <source src="https://images.pexels.com/video-files/6646907/6646907-uhd_3840_2160_25fps.mp4" type="video/mp4" />
         </video>
       </div>
 
