@@ -109,7 +109,8 @@ function Home() {
             
             {/* Floating Glass Stats */}
             <motion.div 
-              className="glass absolute left-4 top-2/4 z-10 w-48 -translate-y-2/4 rounded-3xl p-5 shadow-premium" 
+              className="absolute left-4 top-2/4 z-10 w-48 -translate-y-2/4 rounded-3xl p-5 border border-white/10 backdrop-blur-md" 
+              style={{ background: "rgba(255, 255, 255, 0.03)" }}
               animate={{ y: [0, -20, 0], rotate: [0, -2, 0] }} 
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             >
@@ -128,7 +129,7 @@ function Home() {
                 { title: "GROWING TOGETHER", subtitle: "Community Driven", icon: "🤝" },
                 { title: "EVERY MEAL MATTERS", subtitle: "Small Actions, Big Impact", icon: "🍱" }
               ].map((item) => (
-                <div key={item.title} className="glass rounded-3xl p-5 flex items-center gap-4 min-w-[200px]">
+                <div key={item.title} className="rounded-3xl p-5 flex items-center gap-4 min-w-[200px] border border-white/10 backdrop-blur-md" style={{ background: "rgba(255, 255, 255, 0.03)" }}>
                   <div className="h-12 w-12 rounded-full bg-orange-500/20 flex items-center justify-center text-2xl">
                     {item.icon}
                   </div>
