@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { motion, useScroll, useVelocity, useSpring } from "framer-motion";
+import { motion, useScroll, useVelocity, useSpring, useTransform } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
