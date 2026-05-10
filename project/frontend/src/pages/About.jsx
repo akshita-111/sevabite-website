@@ -17,7 +17,12 @@ function About() {
       />
       <div className="grid gap-6 md:grid-cols-3">
         {items.map((item, i) => (
-          <Card3D key={item.title} {...item} delay={i * 0.1} />
+          <Card3D 
+            key={item.title} 
+            {...item} 
+            delay={i * 0.1} 
+            isTransparent={item.title === "Vision"} 
+          />
         ))}
       </div>
     </div>

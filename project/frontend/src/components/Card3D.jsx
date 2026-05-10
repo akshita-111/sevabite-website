@@ -1,51 +1,78 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-function Card3D({ title, text, icon, delay = 0 }) {
+gsap.registerPlugin(ScrollTrigger);
+
+function Card3D({ title, text, icon, delay = 0, isTransparent = false }) {
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    // ... animation logic stays same
+    const el = cardRef.current;
+    
+    // Smooth Entrance with Fade-up, Scale, and Stagger
+    gsap.fromTo(el, 
+      { opacity: 0, y: 40, scale: 0.96 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1, 
+        duration: 1.2, 
+        ease: "power3.out",
+        delay: delay,
+        scrollTrigger: {
+          trigger: el,
+          start: "top 88%",
+          toggleActions: "play none none reverse"
+        }
+      }
+    );
+
+    // Subtle Floating Idle Motion
+    const floatAnim = gsap.to(el, {
+      y: "-=8",
+      duration: 3 + Math.random() * 2,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      delay: Math.random() * 2
+    });
+
+    return () => {
+      floatAnim.kill();
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.trigger === el) st.kill();
+      });
+    };
+  }, [delay]);
+
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ 
-        delay, 
-        duration: 0.8, 
-        ease: [0.25, 1, 0.5, 1] 
-      }}
-      whileHover={{ 
-        y: -15,
-        rotateX: -5,
-        rotateY: 5,
-        scale: 1.05,
-        transition: { duration: 0.3 }
-      }}
-      className="interactive-card group rounded-3xl p-6 shadow-premium transition-colors"
+    <article
+      ref={cardRef}
+      className="interactive-card group relative rounded-3xl p-6 shadow-premium transition-all duration-500 hover:shadow-[0_0_30px_rgba(45,207,115,0.15)]"
       style={{
-        background: "rgba(10, 15, 30, 0.55)",
+        background: isTransparent ? "transparent" : "rgba(10, 15, 30, 0.35)",
         border: "1px solid rgba(255, 255, 255, 0.12)",
         backdropFilter: "blur(20px)",
-        transformStyle: "preserve-3d",
+      }}
+      onMouseEnter={() => {
+        gsap.to(cardRef.current, { y: -10, scale: 1.03, rotateX: -2, rotateY: 2, duration: 0.4, ease: "power2.out" });
+      }}
+      onMouseLeave={() => {
+        gsap.to(cardRef.current, { y: 0, scale: 1, rotateX: 0, rotateY: 0, duration: 0.4, ease: "power2.out" });
       }}
     >
-      {/* Floating Inner Motion */}
-      <motion.div
-        animate={{ 
-          y: [0, -6, 0],
-          rotateZ: [0, 0.5, 0, -0.5, 0]
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-redSoft via-orangeSoft to-greenSoft text-3xl shadow-lg transition-transform group-hover:scale-110">
-          {icon}
-        </div>
-        <h3 className="mb-3 text-2xl font-black text-white">{title}</h3>
-        <p className="text-slate-300 font-medium leading-relaxed text-base">{text}</p>
-        <div className="mt-6 h-1.5 w-0 rounded-full bg-gradient-to-r from-redSoft to-greenSoft transition-all duration-700 group-hover:w-full" />
-      </motion.div>
-    </motion.article>
+      <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-redSoft via-orangeSoft to-greenSoft text-3xl shadow-lg transition-transform group-hover:scale-110">
+        {icon}
+      </div>
+      <h3 className="mb-3 text-2xl font-black text-white">{title}</h3>
+      <p className="text-slate-300 font-medium leading-relaxed text-base">{text}</p>
+      <div className="mt-6 h-1.5 w-0 rounded-full bg-gradient-to-r from-redSoft to-greenSoft transition-all duration-700 group-hover:w-full" />
+      
+      {/* Soft Glow Overlay on Hover */}
+      <div className="absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none bg-gradient-to-br from-white/5 to-transparent" />
+    </article>
   );
 }
 
