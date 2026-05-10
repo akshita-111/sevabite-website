@@ -100,7 +100,7 @@ function App() {
           className="h-full w-full object-cover scale-105"
           style={{ objectPosition: "center center" }}
         >
-          <source src="/background.mp4" type="video/mp4" />
+          <source src="/background.mp4?v=final" type="video/mp4" />
         </video>
       </div>
 
