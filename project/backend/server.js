@@ -18,8 +18,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Health check endpoint
-app.get("/api/health", async (_req, res) => {
+// API Router
+const apiRouter = express.Router();
+
+// API Health check
+apiRouter.get("/health", async (_req, res) => {
   try {
     const [rows] = await pool.query("SELECT 1 as connected");
     return res.json({ 
@@ -37,14 +40,20 @@ app.get("/api/health", async (_req, res) => {
   }
 });
 
-// API Routes
-app.use("/api/donations", donationsRoute);
-app.use("/api/contacts", contactsRoute);
+// Mount sub-routes
+apiRouter.use("/donations", donationsRoute);
+apiRouter.use("/contacts", contactsRoute);
+
+// Mount the entire API router
+app.use("/api", apiRouter);
 
 // Error handling for unknown routes
 app.use((req, res) => {
-  console.warn(`[404] Route not found: ${req.method} ${req.url}`);
-  res.status(404).json({ message: "Route not found" });
+  console.warn(`[404] Route not found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ 
+    message: "Route not found",
+    details: `No handler for ${req.method} ${req.originalUrl}`
+  });
 });
 
 // Global error handler
