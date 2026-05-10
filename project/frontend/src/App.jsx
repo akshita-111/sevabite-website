@@ -89,7 +89,7 @@ function App() {
   return (
     <div className="min-h-screen text-slate-50 relative">
       {/* Fixed Background Video */}
-      <div className="fixed inset-0 -z-20 h-full w-full overflow-hidden">
+      <div className="fixed inset-0 -z-20 h-full w-full overflow-hidden bg-slate-950">
         <video 
           key="bg-video"
           ref={videoRef}
@@ -100,7 +100,7 @@ function App() {
           className="h-full w-full object-cover scale-105"
           style={{ objectPosition: "center center" }}
         >
-          <source src="https://images.pexels.com/video-files/6646907/6646907-uhd_3840_2160_25fps.mp4" type="video/mp4" />
+          <source src="/background.mp4" type="video/mp4" />
         </video>
       </div>
 
