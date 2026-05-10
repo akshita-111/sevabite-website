@@ -41,15 +41,22 @@ function App() {
   });
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.3;
-    }
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Start paused
+    video.pause();
     
+    // Play only when scrolling, speed based on velocity
     return smoothVelocity.on("change", (latest) => {
-      if (videoRef.current) {
-        const velocityMultiplier = Math.abs(latest) / 4000;
-        const newRate = Math.min(Math.max(0.3 + velocityMultiplier, 0.3), 1.5);
-        videoRef.current.playbackRate = newRate;
+      const velocity = Math.abs(latest);
+      if (velocity > 20) {
+        if (video.paused) video.play().catch(() => {});
+        // Map velocity to playback rate (min 0.5, max 2.5)
+        const newRate = Math.min(Math.max(velocity / 800, 0.5), 2.5);
+        video.playbackRate = newRate;
+      } else {
+        if (!video.paused) video.pause();
       }
     });
   }, [smoothVelocity]);
@@ -93,7 +100,7 @@ function App() {
           className="h-full w-full object-cover scale-105"
           style={{ objectPosition: "center center" }}
         >
-          <source src={`/background.mp4?v=2`} type="video/mp4" />
+          <source src="https://images.pexels.com/video-files/6646907/6646907-uhd_2560_1440_25fps.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-[3px]"></div>
       </div>
