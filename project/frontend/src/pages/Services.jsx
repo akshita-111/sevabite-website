@@ -10,7 +10,7 @@ function Services() {
   ];
 
   return (
-    <section className="section-container rounded-[2.5rem]">
+    <div className="section-container">
       <SectionHeader
         eyebrow="What We Do"
         title="How We Make Impact"
@@ -21,7 +21,7 @@ function Services() {
           <Card3D key={item.title} {...item} delay={i * 0.08} />
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 

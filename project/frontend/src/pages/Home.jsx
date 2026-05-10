@@ -61,7 +61,7 @@ function Home() {
 
   return (
     <div ref={containerRef} className="relative">
-      <section className="section-container relative min-h-[90vh] flex flex-col justify-center">
+      <div className="section-container relative min-h-[90vh] flex flex-col justify-center">
         <BackgroundDecor />
         
         <div className="relative grid items-center gap-10 md:grid-cols-2 z-10">
@@ -141,10 +141,10 @@ function Home() {
             </motion.div>
           </motion.div>
         </div>
-      </section>
+      </div>
 
       {/* Why SevaBite cards - separate, well-spaced area */}
-      <section className="section-container relative z-20 pt-0">
+      <div className="section-container relative z-20 pt-0">
         {/* Subtle backdrop to lift cards above the section image */}
         <div
           className="rounded-3xl px-6 py-12 md:px-10"
@@ -165,7 +165,7 @@ function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

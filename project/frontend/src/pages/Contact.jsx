@@ -29,7 +29,7 @@ function Contact() {
   };
 
   return (
-    <section className="section-container rounded-[2.5rem]">
+    <div className="section-container">
       <SectionHeader eyebrow="Join Us" title="Join The Movement" description="Have extra food, want to volunteer, or partner with us? Let’s build a future with zero food waste together." />
       <motion.form
         initial="hidden"
@@ -52,7 +52,7 @@ function Contact() {
           {status.text && <p className={`text-sm ${status.ok ? "text-green-600" : "text-red-500"}`}>{status.text}</p>}
         </div>
       </motion.form>
-    </section>
+    </div>
   );
 }
 

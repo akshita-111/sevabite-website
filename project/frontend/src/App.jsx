@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useScroll, useVelocity, useSpring } from "framer-motion";
+import { motion, useScroll, useVelocity, useSpring, useTransform } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -9,6 +9,54 @@ import Donate from "./pages/Donate";
 import Contact from "./pages/Contact";
 import CustomCursor from "./components/CustomCursor";
 import Lenis from "@studio-freight/lenis";
+
+const SectionWrapper = ({ id, bgImage, children, overlayOpacity = "60" }) => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Parallax effect for background image
+  const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
+  
+  return (
+    <motion.section
+      id={id}
+      ref={containerRef}
+      initial={{ opacity: 0, y: 100, scale: 0.94 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: false, margin: "-100px" }}
+      transition={{ 
+        duration: 1, 
+        ease: [0.25, 0.1, 0.25, 1] 
+      }}
+      whileHover={{ 
+        scale: 1.005,
+        boxShadow: "0 30px 60px -12px rgba(0, 0, 0, 0.5)"
+      }}
+      className="snap-start relative mx-4 md:mx-20 rounded-[3rem] overflow-hidden mb-12 transition-all duration-700 border border-white/5"
+    >
+      {/* Parallax Background */}
+      <motion.div 
+        className="absolute inset-0 -z-10 h-[125%] w-full"
+        style={{ 
+          backgroundImage: `url('${bgImage}')`, 
+          backgroundSize: "cover", 
+          backgroundPosition: "center",
+          y 
+        }}
+      />
+      
+      {/* Dark overlay with interactive opacity */}
+      <div className={`absolute inset-0 bg-slate-950/${overlayOpacity} transition-opacity duration-700 group-hover:bg-slate-950/50`} />
+      
+      <div className="relative z-10">
+        {children}
+      </div>
+    </motion.section>
+  );
+};
 
 function App() {
   const videoRef = useRef(null);
@@ -20,16 +68,13 @@ function App() {
   });
 
   useEffect(() => {
-    // Set initial slow motion
     if (videoRef.current) {
       videoRef.current.playbackRate = 0.3;
     }
     
     return smoothVelocity.on("change", (latest) => {
       if (videoRef.current) {
-        // Slow ramp: divide by 4000 so only very fast scrolls noticeably speed up
         const velocityMultiplier = Math.abs(latest) / 4000;
-        // Base 0.3x, max 1.5x — gentle, cinematic feel
         const newRate = Math.min(Math.max(0.3 + velocityMultiplier, 0.3), 1.5);
         videoRef.current.playbackRate = newRate;
       }
@@ -62,9 +107,9 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen text-slate-50 relative">
-      {/* Fixed Background Video playing dynamically */}
-      <div className="fixed inset-0 -z-20 h-full w-full">
+    <div className="min-h-screen text-slate-50 relative bg-slate-950">
+      {/* Fixed Background Video */}
+      <div className="fixed inset-0 -z-20 h-full w-full overflow-hidden">
         <video 
           key="bg-video"
           ref={videoRef}
@@ -72,69 +117,39 @@ function App() {
           loop
           muted 
           playsInline 
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover scale-105"
           style={{ objectPosition: "center center" }}
         >
           <source src={`/background.mp4?v=2`} type="video/mp4" />
-          Your browser does not support the video tag.
         </video>
-        {/* Dark overlay to ensure text contrast over background video */}
-        <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-[2px]"></div>
+        <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-[3px]"></div>
       </div>
 
       <CustomCursor />
       <Navbar />
-      <main className="pt-20 md:pt-24 relative z-0">
-        {/* Home Section */}
-        <section
-          id="home"
-          className="snap-start relative mx-20 rounded-3xl overflow-hidden mb-6"
-          style={{ backgroundImage: "url('/home section.png')", backgroundSize: "cover", backgroundPosition: "center" }}
-        >
-          <div className="absolute inset-0 bg-slate-950/60" />
-          <div className="relative z-10"><Home /></div>
-        </section>
+      
+      <main className="pt-24 pb-12 relative z-0">
+        <SectionWrapper id="home" bgImage="/home section.png">
+          <Home />
+        </SectionWrapper>
 
-        {/* About Section */}
-        <section
-          id="about"
-          className="snap-start relative mx-20 rounded-3xl overflow-hidden mb-6"
-          style={{ backgroundImage: "url('/about section.png')", backgroundSize: "cover", backgroundPosition: "center" }}
-        >
-          <div className="absolute inset-0 bg-slate-950/60" />
-          <div className="relative z-10"><About /></div>
-        </section>
+        <SectionWrapper id="about" bgImage="/about section.png">
+          <About />
+        </SectionWrapper>
 
-        {/* Services Section */}
-        <section
-          id="services"
-          className="snap-start relative mx-20 rounded-3xl overflow-hidden mb-6"
-          style={{ backgroundImage: "url('/service.png')", backgroundSize: "cover", backgroundPosition: "center" }}
-        >
-          <div className="absolute inset-0 bg-slate-950/60" />
-          <div className="relative z-10"><Services /></div>
-        </section>
+        <SectionWrapper id="services" bgImage="/service.png">
+          <Services />
+        </SectionWrapper>
 
-        {/* Donate Section */}
-        <section
-          id="donate"
-          className="snap-start relative mx-20 rounded-3xl overflow-hidden mb-6"
-          style={{ backgroundImage: "url('/donate.png')", backgroundSize: "cover", backgroundPosition: "center" }}
-        >
-          <div className="absolute inset-0 bg-slate-950/65" />
-          <div className="relative z-10"><Donate /></div>
-        </section>
+        <SectionWrapper id="donate" bgImage="/donate.png" overlayOpacity="65">
+          <Donate />
+        </SectionWrapper>
 
-        {/* Contact Section */}
-        <section
-          id="contact"
-          className="snap-start relative mx-20 rounded-3xl overflow-hidden mb-6"
-          style={{ backgroundImage: "url('/contact.png')", backgroundSize: "cover", backgroundPosition: "center" }}
-        >
-          <div className="absolute inset-0 bg-slate-950/65" />
-          <div className="relative z-10"><Contact /></div>
-        </section>
+        <SectionWrapper id="contact" bgImage="/contact.png" overlayOpacity="65">
+          <Contact />
+        </SectionWrapper>
       </main>
+
       <Footer />
     </div>
   );

@@ -9,7 +9,7 @@ function About() {
   ];
 
   return (
-    <section className="section-container rounded-[2.5rem]">
+    <div className="section-container">
       <SectionHeader
         eyebrow="Our Mission"
         title="Why SevaBite Exists"
@@ -20,7 +20,7 @@ function About() {
           <Card3D key={item.title} {...item} delay={i * 0.1} />
         ))}
       </div>
-    </section>
+    </div>
   );
 }
 
