@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { motion, useScroll, useVelocity, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useVelocity, useSpring } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -11,50 +11,23 @@ import CustomCursor from "./components/CustomCursor";
 import Lenis from "@studio-freight/lenis";
 
 const SectionWrapper = ({ id, bgImage, children, overlayOpacity = "60" }) => {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  // Parallax effect for background image
-  const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
-  
   return (
-    <motion.section
+    <section
       id={id}
-      ref={containerRef}
-      initial={{ opacity: 0, y: 100, scale: 0.94 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: false, margin: "-100px" }}
-      transition={{ 
-        duration: 1, 
-        ease: [0.25, 0.1, 0.25, 1] 
+      className="snap-start relative mx-4 md:mx-20 rounded-[3rem] overflow-hidden mb-12 border border-white/5"
+      style={{ 
+        backgroundImage: `url('${bgImage}')`, 
+        backgroundSize: "cover", 
+        backgroundPosition: "center",
       }}
-      whileHover={{ 
-        scale: 1.005,
-        boxShadow: "0 30px 60px -12px rgba(0, 0, 0, 0.5)"
-      }}
-      className="snap-start relative mx-4 md:mx-20 rounded-[3rem] overflow-hidden mb-12 transition-all duration-700 border border-white/5"
     >
-      {/* Parallax Background */}
-      <motion.div 
-        className="absolute inset-0 -z-10 h-[125%] w-full"
-        style={{ 
-          backgroundImage: `url('${bgImage}')`, 
-          backgroundSize: "cover", 
-          backgroundPosition: "center",
-          y 
-        }}
-      />
-      
-      {/* Dark overlay with interactive opacity */}
-      <div className={`absolute inset-0 bg-slate-950/${overlayOpacity} transition-opacity duration-700 group-hover:bg-slate-950/50`} />
+      {/* Dark overlay */}
+      <div className={`absolute inset-0 bg-slate-950/${overlayOpacity}`} />
       
       <div className="relative z-10">
         {children}
       </div>
-    </motion.section>
+    </section>
   );
 };
 
