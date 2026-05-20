@@ -3,6 +3,11 @@ const pool = require("../models/db");
 
 const router = express.Router();
 
+// GET test route
+router.get("/", (req, res) => {
+  res.json({ message: "Contacts API is ready for POST requests" });
+});
+
 router.post("/", async (req, res) => {
   const { name, email, message } = req.body;
 
