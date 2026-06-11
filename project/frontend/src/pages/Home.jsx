@@ -4,6 +4,7 @@ import gsap from "gsap";
 import BackgroundDecor from "../components/BackgroundDecor";
 import SectionHeader from "../components/SectionHeader";
 import Card3D from "../components/Card3D";
+import DemoBanner from "../components/DemoBanner";
 
 const features = [
   { title: "Reduce Food Waste", text: "Helping surplus food reach people instead of landfills.", icon: "♻️" },
@@ -93,6 +94,12 @@ function Home() {
                 Explore Mission
               </button>
             </motion.div>
+            <DemoBanner
+              variant="banner"
+              icon="🎓"
+              message="Demo Project: This platform is a prototype created for educational and portfolio purposes. No real food donations, NGO assignments, or volunteer activities are currently processed."
+              className="mt-6"
+            />
           </motion.div>
 
           <motion.div

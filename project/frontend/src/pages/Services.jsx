@@ -1,5 +1,6 @@
 import SectionHeader from "../components/SectionHeader";
 import Card3D from "../components/Card3D";
+import DemoBanner from "../components/DemoBanner";
 
 function Services() {
   const services = [
@@ -20,6 +21,10 @@ function Services() {
         {services.map((item, i) => (
           <Card3D key={item.title} {...item} delay={i * 0.08} />
         ))}
+      </div>
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <DemoBanner message="Sample NGO Dashboard – Demonstration Only" icon="🏠" />
+        <DemoBanner message="Sample Volunteer Dashboard – Demonstration Only" icon="🤝" />
       </div>
     </div>
   );

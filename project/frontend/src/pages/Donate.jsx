@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import SectionHeader from "../components/SectionHeader";
+import DemoBanner from "../components/DemoBanner";
 
 const API_BASE = "/api";
 
@@ -31,6 +32,9 @@ function Donate() {
   return (
     <div className="section-container">
       <SectionHeader eyebrow="Donate Food" title="Every Donation Creates A Smile" description="Your contribution can turn wasted meals into hope for families and communities." />
+      <div className="mx-auto max-w-2xl mb-4">
+        <DemoBanner variant="banner" icon="📦" message="Sample Donation Workflow for Demonstration" />
+      </div>
       <motion.form
         initial="hidden"
         whileInView="show"
@@ -53,6 +57,9 @@ function Donate() {
           {status.text && <p className={`text-sm ${status.ok ? "text-green-600" : "text-red-500"}`}>{status.text}</p>}
         </div>
       </motion.form>
+      <div className="mx-auto max-w-2xl mt-4 flex justify-center">
+        <DemoBanner icon="🤖" message="AI Analysis is for demonstration purposes only and should not be used as a food safety certification." />
+      </div>
     </div>
   );
 }

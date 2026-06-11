@@ -10,7 +10,15 @@
       "destination": "/frontend/dist/assets/$1"
     },
     {
-      "source": "/(.*\\.[a-zA-Z0-9]+)",
+      "source": "/(.*\\.mp4)",
+      "destination": "/frontend/dist/$1"
+    },
+    {
+      "source": "/(.*\\.png)",
+      "destination": "/frontend/dist/$1"
+    },
+    {
+      "source": "/(.*\\.ico)",
       "destination": "/frontend/dist/$1"
     },
     {
