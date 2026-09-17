@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const donationsRoute = require("./routes/donations");
 const contactsRoute = require("./routes/contacts");
+const foodAgentRoute = require("./routes/foodAgent");
 const pool = require("./models/db");
 
 const app = express();
@@ -43,8 +44,10 @@ apiRouter.get("/health", async (_req, res) => {
 // Mount sub-routes (support both /contacts and /contacts/)
 apiRouter.use("/donations", donationsRoute);
 apiRouter.use("/contacts", contactsRoute);
+apiRouter.use("/food-agent", foodAgentRoute);
 apiRouter.use("/donations/", donationsRoute);
 apiRouter.use("/contacts/", contactsRoute);
+apiRouter.use("/food-agent/", foodAgentRoute);
 
 // Mount the entire API router
 app.use("/api", apiRouter);
