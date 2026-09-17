@@ -18,10 +18,12 @@ function evaluateHeuristic({ foodType, quantity, timeSincePrep, storageCondition
   const normStorage = (storageCondition || "").toLowerCase().trim();
   const normNotes = (notes || "").toLowerCase().trim();
 
-  // Check for insufficient or suspicious information
+  // 1. Check for insufficient or ambiguous information
   if (
     normFood.length < 3 ||
     normFood.includes("unknown") ||
+    normFood.includes("stuff") ||
+    normFood.includes("leftover") && normFood.length < 12 ||
     normTime.includes("unknown") ||
     normTime.includes("not sure") ||
     normStorage.includes("unknown") ||
@@ -36,65 +38,116 @@ function evaluateHeuristic({ foodType, quantity, timeSincePrep, storageCondition
     };
   }
 
-  // Check for expired / spoiled signals in notes
+  // 2. Check for explicit spoilage or off-odors
   if (
     normNotes.includes("smell") ||
     normNotes.includes("spoil") ||
     normNotes.includes("stale") ||
     normNotes.includes("mold") ||
-    normNotes.includes("sour")
+    normNotes.includes("sour") ||
+    normNotes.includes("bad") ||
+    normNotes.includes("leak")
   ) {
     return {
       foodStatus: "Not Recommended",
       suggestedRoute: "Composting",
       priority: "Low",
-      shortReason: "Sensory notes indicate possible spoilage or off-odors unsafe for donation.",
-      nextAction: "Safely dispose of food through composting."
+      shortReason: "Sensory notes indicate possible spoilage, off-odors, or compromised integrity.",
+      nextAction: "Safely dispose of food through an approved organic composting facility."
     };
   }
 
-  // Room temperature checks
   const isRoomTemp = normStorage.includes("room") || normStorage.includes("ambient");
+  const isCold = normStorage.includes("refrigerat") || normStorage.includes("chilled") || normStorage.includes("frozen");
+  const isHotHeld = normStorage.includes("hot") || normStorage.includes("heated") || normStorage.includes("60");
+  const isDryPantry = normStorage.includes("dry") || normStorage.includes("pantry") || normStorage.includes("sealed");
+
   const isLongTime =
     normTime.includes("yesterday") ||
     normTime.includes("day") ||
-    normTime.includes("5+") ||
-    normTime.includes("6+") ||
-    normTime.includes("8+") ||
+    normTime.includes("5") ||
+    normTime.includes("6") ||
+    normTime.includes("8") ||
     normTime.includes("12") ||
     normTime.includes("24");
 
+  const isBakeryOrDry =
+    (normFood.includes("bread") ||
+      normFood.includes("biscuit") ||
+      normFood.includes("bakery") ||
+      normFood.includes("grain") ||
+      normFood.includes("packaged") ||
+      normFood.includes("cereal") ||
+      normFood.includes("flour") ||
+      normFood.includes("dry")) &&
+    !normFood.includes("cream") &&
+    !normFood.includes("curry") &&
+    !normFood.includes("meat");
+
+  // 3. Dry / Packaged / Bakery goods (extended stability)
+  if (isDryPantry || isBakeryOrDry) {
+    if (isLongTime && !isDryPantry) {
+      return {
+        foodStatus: "Needs Verification",
+        suggestedRoute: "NGO",
+        priority: "Medium",
+        shortReason: "Bakery goods at ambient temperature require freshness check before redistribution.",
+        nextAction: "Inspect texture and packaging integrity before volunteer pickup."
+      };
+    }
+    return {
+      foodStatus: "Suitable for Donation",
+      suggestedRoute: "NGO",
+      priority: "Low",
+      shortReason: "Dry and bakery goods possess extended shelf stability with low bacterial risk.",
+      nextAction: "Schedule standard volunteer pickup or drop-off at partner NGO center."
+    };
+  }
+
+  // 4. Perishable cooked food stored at room temperature for extended time (>4 hours)
   if (isRoomTemp && isLongTime) {
     const isAnimalSuitable =
       !normFood.includes("chocolate") &&
       !normFood.includes("onion") &&
       !normFood.includes("garlic") &&
-      (normFood.includes("vegetable") || normFood.includes("bread") || normFood.includes("grain") || normFood.includes("rice"));
+      !normFood.includes("grape") &&
+      (normFood.includes("vegetable") || normFood.includes("rice") || normFood.includes("grain") || normFood.includes("fruit"));
 
     return {
       foodStatus: "Not Recommended",
       suggestedRoute: isAnimalSuitable ? "Animal Feeding" : "Composting",
       priority: "Low",
-      shortReason: "Perishable cooked food stored at room temperature beyond 4 hours exceeds standard safety limits.",
+      shortReason: "Perishable cooked food kept at room temperature beyond 4 hours exceeds standard safety limits for human consumption.",
       nextAction: isAnimalSuitable
-        ? "Redirect to an approved local animal shelter or composting center."
+        ? "Redirect to an approved local animal shelter or animal welfare feeding drive."
         : "Direct to a local organic composting facility."
     };
   }
 
-  // Fresh room temperature
+  // 5. Fresh cooked food at room temperature nearing 3-4 hours
+  if (isRoomTemp && normTime.includes("3 - 4")) {
+    return {
+      foodStatus: "Suitable for Donation",
+      suggestedRoute: "Community Kitchen",
+      priority: "High",
+      shortReason: "Food is approaching the 4-hour room temperature safety boundary; immediate consumption required.",
+      nextAction: "Dispatch urgently to the nearest community kitchen for immediate meal service."
+    };
+  }
+
+  // 6. Fresh room temperature (< 2 hours)
   if (isRoomTemp) {
     return {
       foodStatus: "Suitable for Donation",
       suggestedRoute: "Community Kitchen",
       priority: "High",
-      shortReason: "Food is fresh but stored at room temperature; requires rapid distribution within 2 hours.",
+      shortReason: "Freshly cooked food stored at room temperature requires rapid distribution within 2 hours.",
       nextAction: "Coordinate immediate pickup or direct delivery to the nearest community kitchen."
     };
   }
 
-  // Refrigerated or Frozen
-  if (normStorage.includes("refrigerat") || normStorage.includes("chilled") || normStorage.includes("frozen")) {
+  // 7. Cold-stored (Refrigerated / Frozen)
+  if (isCold) {
     return {
       foodStatus: "Suitable for Donation",
       suggestedRoute: "NGO",
@@ -104,28 +157,18 @@ function evaluateHeuristic({ foodType, quantity, timeSincePrep, storageCondition
     };
   }
 
-  // Hot held
-  if (normStorage.includes("hot") || normStorage.includes("heated") || normStorage.includes("60")) {
+  // 8. Hot-held
+  if (isHotHeld) {
     return {
       foodStatus: "Suitable for Donation",
       suggestedRoute: "Community Kitchen",
       priority: "High",
-      shortReason: "Hot food maintains safety if distributed and consumed promptly.",
-      nextAction: "Dispatch immediately in thermal containers to a local community kitchen."
+      shortReason: "Hot food maintained above 60°C is safe for prompt consumption.",
+      nextAction: "Dispatch in thermal insulated containers to a local community kitchen."
     };
   }
 
-  // Packaged / dry
-  if (normStorage.includes("dry") || normStorage.includes("pantry") || normStorage.includes("sealed")) {
-    return {
-      foodStatus: "Suitable for Donation",
-      suggestedRoute: "NGO",
-      priority: "Low",
-      shortReason: "Dry and packaged food has extended shelf stability with minimal temperature dependency.",
-      nextAction: "Schedule standard volunteer pickup or drop-off at partner NGO center."
-    };
-  }
-
+  // Default / Catch-all
   return {
     foodStatus: "Needs Verification",
     suggestedRoute: "Community Kitchen",
