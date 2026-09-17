@@ -1,10 +1,10 @@
 {
   "services": {
     "frontend": {
-      "root": "frontend"
+      "root": "project/frontend"
     },
     "backend": {
-      "root": "backend",
+      "root": "project/backend",
       "entrypoint": "server.js"
     }
   },
